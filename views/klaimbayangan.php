@@ -78,29 +78,36 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach ($dataklaim as $klaim) {
+                                                    <?php 
+                                                    $count = 0;
+                                                    foreach ($dataklaim as $klaim) {
                                                         echo "<tr>";
                                                             echo "<td>".$klaim->noreg."</td>";
                                                             echo "<td>".$klaim->nama_peserta."</td>";
                                                             echo "<td>".$klaim->tgl_kej."</td>";
                                                             echo "<td>".$klaim->nama_status."</td>";
                                                             if($klaim->nama_status == "New"){
-                                                                echo "<td>
+                                                                echo "
+                                                                <td>
                                                                     <center>
-                                                                        <a class='btn btn-warning' style='color:white;' href = '".base_url('dashboard/klaim_register/'.$klaim->kd_cb.'/'.$klaim->kd_thn.'/'.$klaim->no_kl)."'>Edit</a>
-                                                                        <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")'>Proses</button>
-                                                                    </center>
-                                                                </td>";
+                                                                        <a class='btn btn-warning' style='color:white;' href = '".base_url('dashboard/klaim_register/'.$klaim->kd_cb.'/'.$klaim->kd_thn.'/'.$klaim->no_kl)."'>Edit</a>";
+                                                                echo'
+                                                                        <button class="btn btn-info" id = "buttonProcess" style="color:;" data-toggle = "modal" data-target = "#processModal" onclick="postIdKlaim('.$klaim->kd_thn.','.$count.')">Proses</button> </center>
+                                                                </td>';
                                                             }else{
                                                                 echo "<td>
                                                                     <center>
                                                                         <button class='btn btn-warning' style='color:white;' href = '".base_url('dashboard/klaim_register/'.$klaim->no_kl)."' disabled>Edit</button>
-                                                                        <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")' disabled>Proses</button>
+                                                                        <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#processModal' onclick='postIdKlaim(kd_cb,kd_thn,no_kl)' disabled>Proses</button>
                                                                     </center>
                                                                 </td>";
                                                             }
-                                                            
                                                         echo "</tr>";
+                                                        echo"
+                                                            <input type='hidden' value='".$klaim->no_kl."' id='tmp_no_kl".$count."'>
+                                                            <input type='hidden' value='".$klaim->kd_cb."' id='tmp_kd_cb".$count."'>
+                                                        ";
+                                                        $count++;
                                                         }
                                                     ?>
                                                 </tbody>
@@ -138,10 +145,10 @@
                                                             </div>
                                                             <div class="col-12 col-md-9">
                                                                 <textarea name="keterangan" id="keterangan" rows="9" placeholder="Keterangan Tambahan" class="form-control"></textarea>
-                                                                <input type="hidden" name = "no_kl" id = "no_kl">
-                                                                <input type="hidden" name = "kd_cb" id = "kd_cb">
-                                                                <input type="hidden" name = "kd_thn" id = "kd_thn">
-                                                                <input type="hidden" name = "kd_user" id = "kd_user">
+                                                                <input type="text" name = "no_kl" id = "no_kl">
+                                                                <input type="text" name = "kd_cb" id = "kd_cb">
+                                                                <input type="text" name = "kd_thn" id = "kd_thn">
+                                                                <input type="text" name = "kd_user" id = "kd_user">
                                                             </div>
                                                         </div>
                                                         <div class = "card-footer">
@@ -234,8 +241,10 @@
         }
     }
     
-    function postIdKlaim(no_kl){
-       document.getElementById('no_kl').value = no_kl;
+    function postIdKlaim(kd_thn,count){
+        document.getElementById('no_kl').value = document.getElementById('tmp_no_kl'+count).value;
+        document.getElementById('kd_cb').value = document.getElementById('tmp_kd_cb'+count).value;;
+        document.getElementById('kd_thn').value =kd_thn;
     }
     </script>
 

@@ -1643,17 +1643,44 @@ class Dashboard extends CI_Controller {
 		$data['kd_thn'] = $kd_thn;
 		$data['no_kl'] = $id;
 		$data['analisa_klaim'] = $this->input->post('analisa_klaim');
-		$data['dokumen'] = $this->input->post('value');
-		foreach($data['dokumen'] as $klaim){
+		//$data['dokumen'] = $this->input->post('value');
+		$tmpdokumen = $this->input->post('value');
+		foreach($tmpdokumen as $klaim){
 			if(!empty($_FILES['file']['name'][$klaim-1])){
-				$data['lokasi'][$count] = $_FILES['file']['name'][$klaim-1];
+				$_FILES['upload']['name'] = $_FILES['file']['name'][$klaim-1];
+				$_FILES['upload']['type'] = $_FILES['file']['type'][$klaim-1];
+				$_FILES['upload']['tmp_name'] = $_FILES['file']['tmp_name'][$klaim-1];
+				$_FILES['upload']['error'] = $_FILES['file']['error'][$klaim-1];
+				$_FILES['upload']['size'] = $_FILES['file']['size'][$klaim-1];
+				if($this->upload->do_upload('upload')){
+					
+					$upload = $this->upload->data();
+					$tmplokasi[$count] = $upload['file_name'];
+				}else{
+					$tmplokasi[$count] = null;
+				}
 			}else{
-				$data['lokasi'][$count] = null;
+				$tmplokasi[$count] = null;
 			}
 			$count++;
 		}
-		//print_r($data);
-		$this->klaim_model->klaimCallProc("CALL klaim.testlooping(?,?,?,?,?,?)",$data);
+		
+		for($i=0;$i<count($tmpdokumen);$i++){
+			if($i==0){
+				$data['dokumen'] = $tmpdokumen[$i];
+				$data['lokasi'] = $tmplokasi[$i];
+			}else{
+				$data['dokumen'] .= $tmpdokumen[$i];
+				$data['lokasi'] .= $tmplokasi[$i];
+			}
+
+			if($i!=(count($tmpdokumen))-1){
+				$data['dokumen'] .=',';
+				$data['lokasi'] .=',';
+			}
+		}
+		print_r($data);
+		$this->klaim_model->klaimCallProc("CALL klaim.testlooping(?::character varying,?::character varying,?::character varying,?::text,?::character varying,?::character varying)",$data);
 		
 
 		//GET DATA FROM NO_KL
@@ -1765,7 +1792,7 @@ class Dashboard extends CI_Controller {
 						</section>
 						
 						');
-			redirect('dashboard/klaim_register/'.$id.'/dokumen');
+			//redirect('dashboard/klaim_register/'.$id.'/dokumen');
 	}
 
 	public function getJenisKlaimTaken($id){
@@ -1790,19 +1817,21 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function act_proses_klaim(){
-		$klaim = $this->klaim_model->getTKlaimById($this->input->post('no_kl'));
-		$validasijabatan = $this->klaim_model->getValidasiJabatan(1);
-		$jabatan = $this->klaim_model->getUserByJabatan($validasijabatan[0]->kd_jabatan);
-		$data['kd_cb'] = $klaim[0]->kd_cb;
-		$data['kd_thn'] = $klaim[0]->kd_thn;
-		$data['no_kl'] = $klaim[0]->no_kl;
-		$data['kd_user'] = $klaim[0]->kd_user_input;
-		$data['tgl_status'] = date('d M Y');
-		$data['kd_status'] = 2;
-		$data['kd_user_status'] = $jabatan[0]->id;
+		//$klaim = $this->klaim_model->getTKlaimById($this->input->post('no_kl'));
+		//$validasijabatan = $this->klaim_model->getValidasiJabatan(1);
+		//$jabatan = $this->klaim_model->getUserByJabatan($validasijabatan[0]->kd_jabatan);
+		$data['kd_cb'] = $this->input->post('kd_cb');
+		$data['kd_thn'] = $this->input->post('kd_thn');
+		$data['no_kl'] = $this->input->post('no_kl');
+		//$data['kd_user'] = $klaim[0]->kd_user_input;
+		//$data['tgl_status'] = date('d M Y');
+		//$data['kd_status'] = 2;
+		//$data['kd_user_status'] = $jabatan[0]->id;
 		$data['keterangan'] = $this->input->post('keterangan');
-		$data['kd_approval'] = 1;
-		$this->klaim_model->updateToProsesKlaim($data);
+		//$data['kd_approval'] = 1;
+		//$this->klaim_model->updateToProsesKlaim($data);
+		$this->klaim_model->klaimCallProc("CALL klaim.testprocessklaim(?,?,?,?)",$data);
+
 		redirect('dashboard/klaim');
 	}
 

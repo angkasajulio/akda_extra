@@ -58,7 +58,7 @@
                                     <div class="container-fluid">
                                         <div class="card">
                                             <div class="card-header bg-success">
-                                                <strong class="card-title text-light">Data Master Klaim Test Git</strong>
+                                                <strong class="card-title text-light">Data Master Klaim</strong>
                                             </div>
                                         </div>
                                     </div>
