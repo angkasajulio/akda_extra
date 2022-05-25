@@ -86,7 +86,7 @@
                                                             echo "<td>".$klaim->nama_status."</td>";
                                                             echo "<td>
                                                                     <center>
-                                                                        <a class='btn btn-warning' style='color:white;' title='view' href = '".base_url('dashboard/view_klaim/'.$klaim->no_kl)."' title = 'View'>View</a>
+                                                                        <a class='btn btn-warning' style='color:white;' title='view' href = '".base_url('dashboard/view_klaim/'.$klaim->kd_cb.'/'.$klaim->kd_thn.'/'.$klaim->no_kl)."' title = 'View'>View</a>
                                                                         <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")' title='Approval'>Approval</button>
                                                                         <button class='btn btn-warning' style='color: white;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")'>Confirmed</button>
                                                                         <button class='btn btn-danger' style='color:;' data-toggle = 'modal' data-target = '#deleteModal' onclick = 'deleteIdKlaim(".$klaim->no_kl.")'>Rejected</button>

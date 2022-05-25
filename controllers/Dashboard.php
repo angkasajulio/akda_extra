@@ -1843,4 +1843,13 @@ class Dashboard extends CI_Controller {
 		}
 		$this->load->view('settlement_klaim',$data);
 	}
+
+	public function view_klaim($kd_cb,$kd_thn,$no_kl){
+		$data['info'] = $this->klaim_model->getTKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
+		foreach ($data['info'] as $info){
+			$getPenyebabKlaim = $this->klaim_model->getDetailLookUpDetailByKdAndId(1,$info->no_sebab);
+			$info->penyebab_klaim = $getPenyebabKlaim[0]->nm_detail_lookup;
+		}
+		$this->load->view('cetakpenyelesaianklaim',$data);
+	}
 }
