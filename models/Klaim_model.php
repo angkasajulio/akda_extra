@@ -220,6 +220,7 @@
 			$this->db->select('*');
 			$this->db->from('klaim.tklaim');
 			$this->db->where('kd_approval = ',1);
+			$this->db->where('kd_status = ', 2);
 			$query = $this->db->get();
 			return $query->result();
 		}
