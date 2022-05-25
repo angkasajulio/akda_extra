@@ -80,7 +80,7 @@
             <tr>
                 <td>Lokasi Kejadian</td>
                 <td>:</td>
-                <td><?php echo $peserta[0]->lokasi_kej ?></td>
+                <td><?php echo $info[0]->lokasi_kej ?></td>
             </tr>
         </tbody>
     </table>
