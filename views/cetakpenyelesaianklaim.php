@@ -93,23 +93,19 @@
                 <td>Nilai Klaim</td>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Meninggal Dunia</td>
-                <td>Rp 20000000</td>
-                <?php
-                    $value = 1;
-                    foreach ($jenisklaim as $klaim){
-                        echo"
-                            <tr>
-                                <td>".$value."</td>
-                                <td>".$klaim->nama_jenis."</td>
-                                <td>".$klaim->nilai_klaim."</td>
-                            </tr>
-                        ";
-                    } 
-                ?>
-            </tr>
+            <?php
+                $value = 1;
+                foreach ($jenisklaim as $klaim){
+                    echo"
+                        <tr>
+                            <td>".$value."</td>
+                            <td>Rp ".$klaim->nama_jenis."</td>
+                            <td>".$klaim->nilai_klaim."</td>
+                        </tr>
+                    ";
+                    $value++;
+                } 
+            ?>
         </tbody>
     </table>
     <div style="float: right;">
