@@ -85,7 +85,7 @@
         </tbody>
     </table>
     <h3>Klaim</h3>
-    <table id="table">
+    <table id="table" border="1">
         <thead>
             <tr>
                 <td>NO</td>
