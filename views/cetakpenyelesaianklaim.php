@@ -84,6 +84,22 @@
             </tr>
         </tbody>
     </table>
+    <h3>Klaim</h3>
+    <table id="table">
+        <thead>
+            <tr>
+                <td>NO</td>
+                <td>Jenis Klaim</td>
+                <td>Nilai Klaim</td>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Meninggal Dunia</td>
+                <td>Rp 20000000</td>
+            </tr>
+        </tbody>
+    </table>
     <div style="float: right;">
         <h4>Jakarta, <?php echo date('d M Y') ?></h4>
         <!--<img style="width: 100px;" src="<?php echo base_url().'images/qrcode/'.$peserta[0]->noreg?>">-->

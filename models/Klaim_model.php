@@ -224,5 +224,15 @@
 			$query = $this->db->get();
 			return $query->result();
 		}
+
+		public function getDetailJenisKlaimByPrimary($kd_cb,$kd_thn,$no_kl){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaimdetailjenispertanggungan');
+			$this->db->where('kd_cb = ',$kd_cb);
+			$this->db->where('kd_thn = ',$kd_thn);
+			$this->db->where('no_kl = ',$no_kl);
+			$query = $this->db->get();
+			return $query->result();
+		}
 	}
 ?>
