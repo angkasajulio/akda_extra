@@ -97,6 +97,18 @@
                 <td>1</td>
                 <td>Meninggal Dunia</td>
                 <td>Rp 20000000</td>
+                <?php
+                    $value = 1;
+                    foreach ($jenisklaim as $klaim){
+                        echo"
+                            <tr>
+                                <td>".$value."</td>
+                                <td>".$klaim->nama_jenis."</td>
+                                <td>".$klaim->nilai_klaim."</td>
+                            </tr>
+                        ";
+                    } 
+                ?>
             </tr>
         </tbody>
     </table>
