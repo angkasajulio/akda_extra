@@ -790,8 +790,26 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function cetak_info_peserta($id){
+		//Memanggil library
+		$this->load->library('pdfgenerator');
+
+		//filename pdf ketika di download
+		$file_pdf = 'E - Polis Peserta Akda Extra';
+
+		//Ukuran kertas
+		$paper = 'A4';
+
+		//Orientasi Paper
+		$orientation = "potrait";
+
+		//Pengambilan data dari database
         $data['peserta'] = $this->peserta_model->getPesertaById($id);
-    	$this->load->view('cetakinfopeserta',$data);
+    	
+		//Mengambil page php yang menjadi pdf
+		$html = $this->load->view('cetakinfopeserta',$data,true);
+
+		//Run Library
+		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
     }
 
 	public function cetak_polis_peserta($id){
