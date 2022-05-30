@@ -58,7 +58,7 @@
                                             <strong class="card-title text-light">Cetak Schedule Polis Akda Extra</strong>
                                         </div>                                            
                                         <div class="card-body card-block">
-                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal" target="_blank">
+                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                                 <div class="row form-group">
                                                     <div class="col col-md-3">
                                                         <label for="text-input" class=" form-control-label">NOPIN</label>

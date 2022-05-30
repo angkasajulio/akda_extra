@@ -736,23 +736,40 @@ class Dashboard extends CI_Controller {
 	}
 
     public function cetak_peserta($status){
-        /*if($status=='aktif'){
-            //$data['peserta'] = $this->peserta_model->getPesertaAktifAll();
-			$data['peserta'] = $this->peserta_model->getPesertaAktifPage(0);
+        //Memanggil library
+		$this->load->library('pdfgenerator');
+
+		//filename pdf ketika di download
+		$file_pdf = 'E - Polis Peserta Akda Extra';
+
+		//Ukuran kertas
+		$paper = 'A4';
+
+		//Orientasi Paper
+		$orientation = "potrait";
+		
+		if($status=='aktif'){
+            $data['peserta'] = $this->peserta_model->getPesertaAktifAll();
+			//$data['peserta'] = $this->peserta_model->getPesertaAktifPage(0);
         }else
         if($status=='aktivasi'){
-            //$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanAll();
-			$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanPage(0);
+            $data['peserta'] = $this->peserta_model->getPesertaAktifSebulanAll();
+			//$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanPage(0);
         }else
         if($status=='expired'){
-            //$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananAll();
-			$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananPage(0);
-        }*/
-        $data['status'] = $status;
+            $data['peserta'] = $this->peserta_model->getPesertaExpiredBulananAll();
+			//$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananPage(0);
+        }
+        //$data['status'] = $status;
 		$data['jenistanggal'] = "";
 		$data['tgl_awal'] = "";
 		$data['tgl_akhir'] = "";
-    	$this->load->view('cetakpeserta',$data);
+
+		$html = $this->load->view('cetakpesertabayangan',$data,true);
+
+		//run dompdf
+		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
+    	//$this->load->view('cetakpeserta',$data);
     }
 
 	/*public function next_cetak_peserta($status,$page){
