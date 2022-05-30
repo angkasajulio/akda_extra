@@ -743,10 +743,10 @@ class Dashboard extends CI_Controller {
 		$file_pdf = 'E - Polis Peserta Akda Extra';
 
 		//Ukuran kertas
-		$paper = 'A4';
+		$paper = array(0,0,950,950);
 
 		//Orientasi Paper
-		$orientation = "potrait";
+		$orientation = "landscape";
 		
 		if($status=='aktif'){
             $data['peserta'] = $this->peserta_model->getPesertaAktifAll();
