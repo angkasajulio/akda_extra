@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Registrasi Peserta (Excel)</title>
+    <title>Cetak Polis Peserta</title>
 
     <link rel="icon" href="<?php echo base_url('images/icon/logo_akda_playstore.png');?>">
 
@@ -58,7 +58,7 @@
                                             <strong class="card-title text-light">Cetak Schedule Polis Akda Extra</strong>
                                         </div>                                            
                                         <div class="card-body card-block">
-                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal" target="_blank">
                                                 <div class="row form-group">
                                                     <div class="col col-md-3">
                                                         <label for="text-input" class=" form-control-label">NOPIN</label>
