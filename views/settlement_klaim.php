@@ -78,7 +78,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach ($dataklaim as $klaim) {
+                                                    <?php 
+                                                    $count = 0;
+                                                    foreach ($dataklaim as $klaim) {
                                                         echo "<tr>";
                                                             echo "<td>".$klaim->noreg."</td>";
                                                             echo "<td>".$klaim->nama_peserta."</td>";
@@ -87,12 +89,17 @@
                                                             echo "<td>
                                                                     <center>
                                                                         <a class='btn btn-warning' style='color:white;' title='view' href = '".base_url('dashboard/view_klaim/'.$klaim->kd_cb.'/'.$klaim->kd_thn.'/'.$klaim->no_kl)."' title = 'View'>View</a>
-                                                                        <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")' title='Approval'>Approval</button>
+                                                                        <button class='btn btn-info' style='color:;' data-toggle = 'modal' data-target = '#approvalModal' onclick = 'postIdKlaim(".$klaim->kd_thn.",".$count.")' title='Approval'>Approval</button>
                                                                         <button class='btn btn-warning' style='color: white;' data-toggle = 'modal' data-target = '#processModal' onclick = 'postIdKlaim(".$klaim->no_kl.")'>Confirmed</button>
                                                                         <button class='btn btn-danger' style='color:;' data-toggle = 'modal' data-target = '#deleteModal' onclick = 'deleteIdKlaim(".$klaim->no_kl.")'>Rejected</button>
                                                                     </center>
                                                                 </td>";
                                                         echo "</tr>";
+                                                        echo"
+                                                            <input type='hidden' value='".$klaim->no_kl."' id='tmp_no_kl".$count."'>
+                                                            <input type='hidden' value='".$klaim->kd_cb."' id='tmp_kd_cb".$count."'>
+                                                        ";
+                                                        $count++;
                                                         }
                                                     ?>
                                                 </tbody>
@@ -113,27 +120,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="processModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">
                                                 <div class="col-md-12">
                                                     <div class="card">
                                                         <div class="card-header bg-success">
-                                                            <strong class="card-title text-light">Keterangan Proses</strong>
+                                                            <strong class="card-title text-light">Keterangan Approval</strong>
                                                         </div>
                                                     </div>
-                                                    <form action="<?php echo base_url('dashboard/act_proses_klaim') ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                    <form action="<?php echo base_url('dashboard/act_approval_klaim') ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                                         <div class="row form-group">
                                                             <div class="col col-md-3">
                                                                 <label for="text-input" class=" form-control-label">KETERANGAN</label>
                                                             </div>
                                                             <div class="col-12 col-md-9">
                                                                 <textarea name="keterangan" id="keterangan" rows="9" placeholder="Keterangan Tambahan" class="form-control"></textarea>
-                                                                <input type="hidden" name = "no_kl" id = "no_kl">
-                                                                <input type="hidden" name = "kd_cb" id = "kd_cb">
-                                                                <input type="hidden" name = "kd_thn" id = "kd_thn">
-                                                                <input type="hidden" name = "kd_user" id = "kd_user">
+                                                                <input type="text" name = "no_kl" id = "no_kl">
+                                                                <input type="text" name = "kd_cb" id = "kd_cb">
+                                                                <input type="text" name = "kd_thn" id = "kd_thn">
+                                                                <input type="text" name = "kd_user" id = "kd_user" value = "<?php echo $this->session->userdata('kd_user');?>">
                                                             </div>
                                                         </div>
                                                         <div class = "card-footer">
@@ -259,8 +266,10 @@
         }
     }
     
-    function postIdKlaim(no_kl){
-       document.getElementById('no_kl').value = no_kl;
+    function postIdKlaim(kd_thn,count){
+        document.getElementById('no_kl').value = document.getElementById('tmp_no_kl'+count).value;
+        document.getElementById('kd_cb').value = document.getElementById('tmp_kd_cb'+count).value;
+        document.getElementById('kd_thn').value =kd_thn;
     }
 
     function deleteIdKlaim(no_kl){

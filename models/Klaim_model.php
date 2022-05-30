@@ -153,6 +153,17 @@
 			return $query->result();
 		}
 
+		public function getKlaimDocumentByPrimaryAndNoDokumen($kd_cb,$kd_thn,$no_kl,$no_dok){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaimdetaildokumen');
+			$this->db->where('kd_cb = ',$kd_cb);
+			$this->db->where('kd_thn = ',$kd_thn);
+			$this->db->where('no_kl =',$no_kl);
+			$this->db->where('no_dokumen =',$no_dok);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
 		public function getKlaimDocumentById($no_kl){
 			$this->db->select('*');
 			$this->db->from('klaim.tklaimdetaildokumen');
@@ -231,6 +242,33 @@
 			$this->db->where('kd_cb = ',$kd_cb);
 			$this->db->where('kd_thn = ',$kd_thn);
 			$this->db->where('no_kl = ',$no_kl);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getAllApprovedKlaim(){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaim');
+			$this->db->where('kd_status =',3);
+			$query = $this->db->get();
+			return $query->result();
+		}
+		
+		public function getNotaByPrimary($kd_cb,$kd_thn,$no_kl){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaimnota');
+			$this->db->where('kd_cb =',$kd_cb);
+			$this->db->where('kd_thn =',$kd_thn);
+			$this->db->where('no_kl =',$no_kl);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getAllKlaimMemo(){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaim');
+			$this->db->where('kd_status =',3);
+			$this->db->or_where('kd_status =',2);
 			$query = $this->db->get();
 			return $query->result();
 		}

@@ -114,9 +114,26 @@
                 </a>
                 <ul class="list-unstyled navbar__sub-list js-sub-list">
                     <li>
-                        <a href="<?php echo base_url('dashboard/klaim') ?>">Register</a>
+                        <a href="<?php echo base_url('dashboard/klaim') ?>">Registrasi</a>
+                    </li>
+                    <li>
                         <a href="<?php echo base_url('dashboard/settlement_klaim') ?>">Settlement</a>
-                        <!--<a href="#">Register Klaim</a>-->
+                    </li>
+                    <li>
+                        <a class="js-arrowsub" href="#">
+                            Report
+                            <span class="arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </span>
+                        </a>
+                        <ul class="list-unstyled navbar__sub-list js-sub-listsub">
+                            <li>
+                                <a href="<?php echo base_url('dashboard/memo_penyelesaian_klaim') ?>">Memo Penyelesaian Klaim</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url('dashboard/kredit_nota') ?>">Kredit Nota</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>

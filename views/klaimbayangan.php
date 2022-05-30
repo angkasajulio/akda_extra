@@ -243,7 +243,7 @@
     
     function postIdKlaim(kd_thn,count){
         document.getElementById('no_kl').value = document.getElementById('tmp_no_kl'+count).value;
-        document.getElementById('kd_cb').value = document.getElementById('tmp_kd_cb'+count).value;;
+        document.getElementById('kd_cb').value = document.getElementById('tmp_kd_cb'+count).value;
         document.getElementById('kd_thn').value =kd_thn;
     }
     </script>

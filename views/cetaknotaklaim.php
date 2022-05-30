@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMO PENYELESAIAN KLAIM AKDA EXTRA</title>
+    <title>KREDIT NOTA</title>
     <style>
     #table {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -53,19 +53,19 @@
     <br>
     <br>
     <div style="text-align:center">
-        <h3>Memo Penyelesaian Klaim Akda Extra</h3>
+        <h3>KREDIT NOTA</h3>
     </div>
     <table id="table">
         <tbody>
             <tr>
+                <td>Nomor Register</td>
+                <td>:</td>
+                <td><?php echo $info[0]->noreg ?></td>
+            </tr>
+            <tr>
                 <td>Nama Peserta</td>
                 <td>:</td>
                 <td><?php echo $info[0]->nama_peserta ?></td>
-            </tr>
-            <tr>
-                <td>Nomor Kartu</td>
-                <td>:</td>
-                <td><?php echo $info[0]->noreg ?></td>
             </tr>
             <tr>
                 <td>Alamat</td>
@@ -73,24 +73,24 @@
                 <td><?php echo $info[0]->alamat_peserta ?></td>
             </tr>
             <tr>
-                <td>Penyebab Klaim</td>
+                <td>Tanggal</td>
                 <td>:</td>
-                <td><?php echo $info[0]->penyebab_klaim ?></td>
+                <td><?php echo date('j-n-Y') ?></td>
             </tr>
             <tr>
-                <td>Lokasi Kejadian</td>
+                <td>COB</td>
                 <td>:</td>
-                <td><?php echo $info[0]->lokasi_kej ?></td>
+                <td>Akda Extra</td>
             </tr>
         </tbody>
     </table>
-    <h3>Klaim</h3>
+    <h3>Klaim Yang Diajukan</h3>
     <table id="table" border="1">
         <thead>
             <tr>
                 <td><center>NO</center></td>
-                <td><center>Jenis Klaim</center></td>
-                <td><center>Nilai Klaim</center></td>
+                <td><center>Jenis</center></td>
+                <td><center>Nilai</center></td>
         </thead>
         <tbody>
             <?php
@@ -100,62 +100,34 @@
                         <tr>
                             <td><center>".$value."</center></td>
                             <td>".$klaim->nama_jenis."</td>
-                            <td><center>Rp ".number_format($klaim->nilai_klaim)."</center></td>
+                            <td>Rp ".number_format($klaim->nilai_klaim)."</td>
                         </tr>
                     ";
                     $value++;
                 } 
-            ?>
-        </tbody>
-    </table>
-    <h3>Dokumen Klaim</h3>
-    <table id="table" border="1">
-        <thead>
-            <tr>
-                <td><center>NO</center></td>
-                <td><center>Dokumen Klaim</center></td>
-                <td><center>Status</center></td>
-        </thead>
-        <tbody>
-            <?php
-                $value = 1;
-                foreach ($dokumenklaim as $klaim){
-                    echo"
-                        <tr>
-                            <td><center>".$value."</center></td>
-                            <td>".$klaim->nm_detail_lookup."</td>
-                            <td><center>".$klaim->status."</center></td>
-                        </tr>
-                    ";
-                    $value++;
-                } 
+                echo"
+                    <tr>
+                        <td colspan = '2'><center><strong>Total</strong></center>
+                        <td><strong>Rp ".number_format($nota[0]->nilai_nt)."</strong></td>
+                    </tr>
+                ";
             ?>
         </tbody>
     </table>
     <br>
     <br>
-    <div style="border: 1px solid black; ">
-        <h4>Analisa dan Evaluasi Staff Akda Extra</h4>
-        <textarea cols="254" rows="5" style="border:0px;"><?php echo $info[0]->analisa_klaim?></textarea>
-        <br>
-    </div>
-    <br>
-    <br>
-    <?php 
-        if(!empty($info[0]->analisa_klaim2)){
-            echo"
-            <div style='border: 1px solid black; '>
-                <h4>Analisa dan Evaluasi Staff Akda Extra</h4>
-                <textarea cols='254' rows='5' style='border:0px;'>".$info[0]->analisa_klaim2."</textarea>
-                <br>
-            </div>
-            ";
-        }
-    ?>
     <div style="float: right;">
         <h4>Jakarta, <?php echo date('d M Y') ?></h4>
-        <!--<img style="width: 100px;" src="<?php echo base_url().'images/qrcode/'.$peserta[0]->noreg?>">-->
-        <br>Authorized Signature
+        KADIV AKDA & ASIBHARA
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        GATOT SUBROTO, SH.
     </div>
 </body>
 

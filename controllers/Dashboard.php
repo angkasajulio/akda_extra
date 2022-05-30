@@ -1612,10 +1612,10 @@ class Dashboard extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function getFormDokumenKlaim($id){
+	public function getFormDokumenKlaim($kd_cb,$kd_thn,$id){
 		$data = $this->klaim_model->getAllLookUpDetail(3);
 		foreach($data as $klaim){
-			$temp = $this->klaim_model->getKlaimDocumentByIdAndNoDokumen($id,$klaim->no_lookup);
+			$temp = $this->klaim_model->getKlaimDocumentByPrimaryAndNoDokumen($kd_cb,$kd_thn,$id,$klaim->no_lookup);
 			if(!empty($temp)){
 				$klaim->status = $temp[0]->status;
 			}else{
@@ -1792,7 +1792,7 @@ class Dashboard extends CI_Controller {
 						</section>
 						
 						');
-			//redirect('dashboard/klaim_register/'.$id.'/dokumen');
+		redirect('dashboard/klaim_register/'.$kd_cb.'/'.$kd_thn.'/'.$id.'/dokumen');
 	}
 
 	public function getJenisKlaimTaken($id){
@@ -1845,16 +1845,111 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function view_klaim($kd_cb,$kd_thn,$no_kl){
+		//Memanggil library
+		$this->load->library('pdfgenerator');
+
+		//filename pdf ketika di download
+		$file_pdf = 'E - Polis Peserta Akda Extra';
+
+		//Ukuran kertas
+		$paper = 'A4';
+
+		//Orientasi Paper
+		$orientation = "potrait";
+		
+		//Pengambilan data dari database
 		$data['info'] = $this->klaim_model->getTKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
 		$data['jenisklaim'] = $this->klaim_model->getDetailJenisKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
+		$data['dokumenklaim'] = $this->klaim_model->getLookUpDetail(3);
+		
 		foreach ($data['info'] as $info){
 			$getPenyebabKlaim = $this->klaim_model->getDetailLookUpDetailByKdAndId(1,$info->no_sebab);
 			$info->penyebab_klaim = $getPenyebabKlaim[0]->nm_detail_lookup;
 		}
+		
 		foreach($data['jenisklaim'] as $jenisklaim){
 			$getPenyebabKlaim = $this->klaim_model->getDetailLookUpDetailByKdAndId(2,$jenisklaim->no_jenis_pertanggungan);
 			$jenisklaim->nama_jenis = $getPenyebabKlaim[0]->nm_detail_lookup;
 		}
-		$this->load->view('cetakpenyelesaianklaim',$data);
+
+		foreach($data['dokumenklaim'] as $dokumenklaim){
+			$getDokumenTaken = $this->klaim_model->getKlaimDocumentByPrimaryAndNoDokumen($kd_cb,$kd_thn,$no_kl,$dokumenklaim->no_lookup);
+			if(empty($getDokumenTaken)){
+				$dokumenklaim->status = null;
+			}else{
+				$dokumenklaim->status = "v";
+			}
+		}
+
+		//Memanggil html untuk dijadikan PDF
+		$html = $this->load->view('cetakpenyelesaianklaim',$data,true);
+
+		//run dompdf
+		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
+		//$this->load->view('cetakpenyelesaianklaim',$data);
+	}
+	
+	public function act_approval_klaim(){
+		$data['kd_cb'] = $this->input->post('kd_cb');
+		$data['kd_thn'] = $this->input->post('kd_thn');
+		$data['no_kl'] = $this->input->post('no_kl');
+		$data['keterangan'] = $this->input->post('keterangan');
+		$data['kd_user'] = $this->input->post('kd_user');
+		$this->klaim_model->klaimCallProc("call klaim.testapprovalklaim(?,?,?,?,?)",$data);
+		redirect('dashboard/settlement_klaim');
+	}
+
+	public function kredit_nota(){
+		$data['dataklaim'] = $this->klaim_model->getAllApprovedKlaim();
+		foreach ($data['dataklaim'] as $klaim) {
+			$getstatus = $this->klaim_model->getNamaStatus($klaim->kd_status);
+			$klaim->nama_status = $getstatus[0]->nm_status;
+			$getnilaint = $this->klaim_model->getNotaByPrimary($klaim->kd_cb,$klaim->kd_thn,$klaim->no_kl);
+			$klaim->nilai_nt = $getnilaint[0]->nilai_nt;
+			$klaim->kd_thn_nt = $getnilaint[0]->kd_thn_nt;
+			$klaim->no_nt = $getnilaint[0]->no_nt;
+		}
+		$this->load->view('kredit_nota',$data);
+	}
+	
+	public function cetak_nota($kd_cb,$kd_thn,$no_kl){
+		//Memanggil library
+		$this->load->library('pdfgenerator');
+
+		//filename pdf ketika di download
+		$file_pdf = 'E - Polis Peserta Akda Extra';
+
+		//Ukuran kertas
+		$paper = 'A4';
+
+		//Orientasi Paper
+		$orientation = "potrait";
+		
+		//Pengambilan dan Pengelolahan Data
+		$data['info'] = $this->klaim_model->getTKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
+		$data['nota'] = $this->klaim_model->getNotaByPrimary($kd_cb,$kd_thn,$no_kl);
+		$data['jenisklaim'] = $this->klaim_model->getDetailJenisKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
+
+		foreach($data['jenisklaim'] as $jenisklaim){
+			$getPenyebabKlaim = $this->klaim_model->getDetailLookUpDetailByKdAndId(2,$jenisklaim->no_jenis_pertanggungan);
+			$jenisklaim->nama_jenis = $getPenyebabKlaim[0]->nm_detail_lookup;
+		}
+		
+		//Memanggil html untuk dijadikan PDF
+		$html = $this->load->view('cetaknotaklaim',$data,true);
+
+		//run dompdf
+		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
+		
+		//$this->load->view('cetaknotaklaim',$data);
+	}
+
+	public function memo_penyelesaian_klaim(){
+		$data['dataklaim'] = $this->klaim_model->getAllKlaimMemo();
+		foreach ($data['dataklaim'] as $klaim) {
+			$getstatus = $this->klaim_model->getNamaStatus($klaim->kd_status);
+			$klaim->nama_status = $getstatus[0]->nm_status;
+		}
+		$this->load->view('memo_penyelesaian',$data);
 	}
 }

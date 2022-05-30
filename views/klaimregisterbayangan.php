@@ -633,7 +633,7 @@
             }
         });
         $.ajax({
-            url: "<?php echo base_url(); ?>dashboard/getFormDokumenKlaim/" + id,
+            url: "<?php echo base_url(); ?>dashboard/getFormDokumenKlaim/" +kd_cb+"/"+kd_thn+"/"+id,
             method: "GET",
             async: false,
             dataType: 'json',

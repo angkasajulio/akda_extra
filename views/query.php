@@ -148,17 +148,17 @@
                                                 </thead>
                                                 <tbody style="" id="tabelpeserta">
                                                     <?php
-                                                    for ($i = 0; $i <= 9; $i++) {
+                                                    foreach ($peserta as $peserta) {
                                                         echo "<tr>";
-                                                        echo "<td>" . $peserta[$i]->noreg . "</td>";
-                                                        echo "<td>" . $peserta[$i]->nopin . "</td>";
-                                                        echo "<td>" . $peserta[$i]->nama . "</td>";
-                                                        echo "<td>" . $peserta[$i]->tgl_reg . "</td>";
-                                                        echo "<td>" . $peserta[$i]->tgl_aktif . "</td>";
-                                                        echo "<td>" . $peserta[$i]->tgl_expired . "</td>";
+                                                        echo "<td>" . $peserta->noreg . "</td>";
+                                                        echo "<td>" . $peserta->nopin . "</td>";
+                                                        echo "<td>" . $peserta->nama . "</td>";
+                                                        echo "<td>" . $peserta->tgl_reg . "</td>";
+                                                        echo "<td>" . $peserta->tgl_aktif . "</td>";
+                                                        echo "<td>" . $peserta->tgl_expired . "</td>";
                                                         echo "<td>
                                                                 <center>
-                                                                    <button onclick='onDetail(" . $peserta[$i]->id . ")' class='btn btn-info' style='color:white;' data-toggle='modal' data-target='#largeModal'>Detail</button>
+                                                                    <button onclick='onDetail(" . $peserta->id . ")' class='btn btn-info' style='color:white;' data-toggle='modal' data-target='#largeModal'>Detail</button>
                                                                 </center>
                                                             </td>";
                                                         echo "</tr>";
@@ -167,14 +167,14 @@
                                                 </tbody>
                                             </table>
                                             <div class="">
-                                                <a style="float:right;" id="count">1 - 10 of
+                                                <a style="float:right;" id="count"><?php if($jumlahpeserta==0){echo $jumlahpeserta;}else{echo 1;} ?> - <?php if($jumlahpeserta<10) {echo $jumlahpeserta;}else{echo 10;}?> of
                                                     <?php echo $jumlahpeserta ?></a>
                                             </div>
                                             <div class="card-body">
                                                 <center>
-                                                    <a onclick="prevBtn()"><button type="button" class="btn btn-outline-danger btn-sm" style="width:78px;">Previous</button></a>
+                                                    <a onclick="prevBtn()"><button type="button" class="btn btn-outline-danger btn-sm" style="width:78px;" id="btnPrev" disabled>Previous</button></a>
                                                     <button type="button" class="btn btn-outline-secondary btn-sm" id="page">1</button>
-                                                    <a onclick="nextBtn()"><button type="button" class="btn btn-outline-primary btn-sm" style="width:78px;">Next</button></a>
+                                                    <a onclick="nextBtn()"><button type="button" class="btn btn-outline-primary btn-sm" style="width:78px;" id="btnNext">Next</button></a>
                                                 </center>
                                             </div>
                                             <form action="<?php echo base_url('dashboard/cetak_query') ?>" method="post" enctype="multipart/form-data" class="" style="display:;" target="_blank">
@@ -314,8 +314,12 @@
     <script>
         var status = '<?php echo $this->session->flashdata('status') ?>';
         var url = '<?php echo $this->session->flashdata('url') ?>';
+        var jumlahpeserta = '<?php echo $jumlahpeserta?>';
         if (status != '') {
             window.location.replace(url);
+        }
+        if(jumlahpeserta<=10){
+            document.getElementById('btnNext').disabled = true;
         }
 
         function on(id, idbtn, idtbl) {
