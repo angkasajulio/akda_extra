@@ -78,12 +78,12 @@
                 foreach($peserta as $peserta){
                     echo "
                         <tr>
-                            <td>".$peserta[0]->noreg."</td>
-                            <td>".$peserta[0]->nopin."</td>
-                            <td>".$peserta[0]->nama."</td>
-                            <td>".$peserta[0]->tgl_reg."</td>
-                            <td>".$peserta[0]->tgl_aktif."</td>
-                            <td>".$peserta[0]->tgl_expired."</td>
+                            <td>".$peserta->noreg."</td>
+                            <td>".$peserta->nopin."</td>
+                            <td>".$peserta->nama."</td>
+                            <td>".$peserta->tgl_reg."</td>
+                            <td>".$peserta->tgl_aktif."</td>
+                            <td>".$peserta->tgl_expired."</td>
                         </tr>
                     ";
                 }
