@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Startmin - Bootstrap Admin Theme</title>
+        <title>Akda Extra - Login</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url('cssadmin/bootstrap.min.css') ?>" rel="stylesheet">

@@ -69,25 +69,25 @@
                                                                     <?php
                                                                     if (empty($tanggal)) {
                                                                         echo '
-                                                                                <option value="tgl_reg" >Tanggal Registrasi</option>
+                                                                                <option value="tgl_reg" >Tanggal Aktivasi</option>
                                                                                 <option value="tgl_aktif">Tanggal Aktif</option>
                                                                                 <option value="tgl_expired">Tanggal Expired</option>
                                                                             ';
                                                                     } elseif ($tanggal == 'tgl_reg') {
                                                                         echo '
-                                                                                <option value="tgl_reg" selected>Tanggal Registrasi</option>
+                                                                                <option value="tgl_reg" selected>Tanggal Aktivasi</option>
                                                                                 <option value="tgl_aktif">Tanggal Aktif</option>
                                                                                 <option value="tgl_expired">Tanggal Expired</option>
                                                                             ';
                                                                     } elseif ($tanggal == 'tgl_aktif') {
                                                                         echo '
-                                                                                <option value="tgl_reg">Tanggal Registrasi</option>
+                                                                                <option value="tgl_reg">Tanggal Aktivasi</option>
                                                                                 <option value="tgl_aktif" selected>Tanggal Aktif</option>
                                                                                 <option value="tgl_expired">Tanggal Expired</option>
                                                                             ';
                                                                     } elseif ($tanggal == 'tgl_expired') {
                                                                         echo '
-                                                                                <option value="tgl_reg">Tanggal Registrasi</option>
+                                                                                <option value="tgl_reg">Tanggal Aktivasi</option>
                                                                                 <option value="tgl_aktif">Tanggal Aktif</option>
                                                                                 <option value="tgl_expired" selected>Tanggal Expired</option>
                                                                             ';

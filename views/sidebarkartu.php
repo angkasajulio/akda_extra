@@ -83,7 +83,7 @@
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-listsub">
                                 <li>
-                                    <a href="<?php echo base_url('dashboard/query') ?>">Produksi Premi</a>
+                                    <a href="<?php echo base_url('dashboard/query') ?>">Daftar Peserta</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url('dashboard/schedule_polis') ?>">Schedule Polis</a>
