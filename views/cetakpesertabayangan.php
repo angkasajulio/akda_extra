@@ -5,10 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PESERTA AKDA EXTRA</title>
     <style>
+    @page {
+        margin: 100px 25px;
+    }
     #table {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
         border-collapse: collapse;
         width: 100%;
+    }
+
+    header{
+        position: fixed;
+        top: -60px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
     }
 
     #table td,
@@ -90,6 +101,14 @@
             ?>
         </tbody>
     </table>
+    <main>
+        <p style="page-break-after: always;">
+            Content Page 1
+        </p>
+        <p style="page-break-after: never;">
+            Content Page 2
+        </p>
+    </main>
 </body>
 
 </html>

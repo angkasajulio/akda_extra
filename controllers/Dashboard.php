@@ -765,11 +765,11 @@ class Dashboard extends CI_Controller {
 		$data['tgl_awal'] = "";
 		$data['tgl_akhir'] = "";
 
-		//$html = $this->load->view('cetakpesertabayangan',$data,true);
+		$html = $this->load->view('cetakpesertabayangan',$data,true);
 
 		//run dompdf
-		//$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
-    	$this->load->view('cetakpesertabayangan',$data);
+		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
+    	//$this->load->view('cetakpesertabayangan',$data);
     }
 
 	/*public function next_cetak_peserta($status,$page){
