@@ -172,7 +172,7 @@
         <br>
         <br>
         <div style="float: right;">
-            <h4>Pengajuan</h4>
+            <h4><?php echo $info[0]->user_input_jabatan?></h4>
             <br>
             <br><?php echo $info[0]->user_input_jabatan?>
         </div>
