@@ -177,7 +177,6 @@
             <br><?php echo $info[0]->user_input_jabatan?>
         </div>
     </div>
-    </div>
     <br>
     <br>
     <?php 
