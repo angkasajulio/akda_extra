@@ -8,6 +8,14 @@
                   return $query->result();
 		}
 
+            public function getUserById($id){
+                  $this->db->select('*');
+                  $this->db->from('users.user');
+                  $this->db->where('id = ',$id);
+                  $query = $this->db->get();
+                  return $query->result();
+            }
+
             public function getUsersByEmail($email){
                   $this->db->select('*');
                   $this->db->from('users.user');

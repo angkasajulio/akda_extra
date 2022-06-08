@@ -7,6 +7,23 @@
 			return $query->result();
 		}
 
+		public function getKlaimByUserInput($kd_user){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaim');
+			$this->db->where('kd_user_input=', $kd_user);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getKlaimByUserStatusAndStatus($kd_user,$kd_status){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaim');
+			$this->db->where('kd_user_status=', $kd_user);
+			$this->db->where('kd_status=', $kd_status);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
 		public function getNoReg($noreg)
 		{
 			$this->db->select('*');
@@ -197,6 +214,15 @@
 			$query = $this->db->get();
 			return $query->result();
 		}
+		public function getJenisKlaimTakenByPrimary($kd_cb,$kd_thn,$id){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaimdetailjenispertanggungan');
+			$this->db->where('kd_cb = ',$kd_cb);
+			$this->db->where('kd_thn = ',$kd_thn);
+			$this->db->where('no_kl = ',$id);
+			$query = $this->db->get();
+			return $query->result();
+		}
 
 		public function getDokumenRequired($jenisdokumen){
 			$this->db->select('*');
@@ -225,15 +251,6 @@
 		public function updateToProsesKlaim($data){
 			$call_proc = "CALL klaim.processKlaim(?,?,?,?,?,?,?,?,?)";
 			$result = $this->db->query($call_proc,$data);
-		}
-
-		public function getKlaimProcess(){
-			$this->db->select('*');
-			$this->db->from('klaim.tklaim');
-			$this->db->where('kd_approval = ',1);
-			$this->db->where('kd_status = ', 2);
-			$query = $this->db->get();
-			return $query->result();
 		}
 
 		public function getDetailJenisKlaimByPrimary($kd_cb,$kd_thn,$no_kl){
@@ -269,6 +286,37 @@
 			$this->db->from('klaim.tklaim');
 			$this->db->where('kd_status =',3);
 			$this->db->or_where('kd_status =',2);
+			$this->db->or_where('kd_status =',4);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getDetailStatusByPrimary($kd_cb,$kd_thn,$no_kl){
+			$this->db->select('*');
+			$this->db->from('klaim.tklaimdetailstatus');
+			$this->db->where('kd_cb =',$kd_cb);
+			$this->db->where('kd_thn =',$kd_thn);
+			$this->db->where('no_kl =',$no_kl);
+			$this->db->order_by('no_urut','desc');
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getNamaUserById($kd_user){
+			$this->db->select('*');
+			$this->db->from('users.user');
+			$this->db->where('id =',$kd_user);
+			$query = $this->db->get();
+			return $query->result();
+		}
+
+		public function getHighestUserByPrimary($kd_cb,$kd_approval){
+			$this->db->select('*');
+			$this->db->from('klaim.mroleapprovalklaimposition');
+			$this->db->where('kd_cb =',$kd_cb);
+			$this->db->where('kd_approval =',$kd_approval);
+			$this->db->order_by('no_urut','asc');
+			$this->db->limit(1);
 			$query = $this->db->get();
 			return $query->result();
 		}

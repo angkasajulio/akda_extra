@@ -80,7 +80,7 @@
                                                 <div class="statistic__item" id="expired" onclick="on('expired')">
                                                     <h2 class="number" id="jumlahexpiredsebulan">
                                                         <?php echo $jumlahexpiredsebulan ?> Orang</h2>
-                                                    <span class="desc">Peserta Yang Berakhir 1 Bulan Kedepan</span>
+                                                    <span class="desc">Peserta Yang Berakhir S/D 1 Bulan Kedepan</span>
                                                 </div>
                                             </div>
                                         </div>

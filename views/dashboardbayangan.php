@@ -58,10 +58,10 @@
                                             <div class="card-header bg-success">
                                                 <strong class="card-title text-light">Selamat Datang, <?php echo $this->session->userdata('username');?></strong>
                                             </div>
-                                            <div class="card-body">
+                                            <!--<div class="card-body">
                                                 <p class="card-text">Anda Login Sebagai <strong><?php echo $this->session->userdata('role')?></strong>
                                                 </p>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <!-- END DATA TABLE-->
                                     </div>

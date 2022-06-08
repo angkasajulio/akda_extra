@@ -10,7 +10,9 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Master Registrasi Klaim</title>
+
+    <link rel="icon" href="<?php echo base_url('images/icon/logo_akda_playstore.png');?>">
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url("css/font-face.css") ?>" rel="stylesheet" media="all">
@@ -70,6 +72,7 @@
                                             <table class="table table-borderless table-data3">
                                                 <thead>
                                                     <tr>
+                                                        <th><center>KODE KLAIM</center></th>
                                                         <th><center>NO.REG</center></th>
                                                         <th><center>NAMA</center></th>
                                                         <th><center>TANGGAL KEJADIAN</center></th>
@@ -82,11 +85,12 @@
                                                     $count = 0;
                                                     foreach ($dataklaim as $klaim) {
                                                         echo "<tr>";
+                                                            echo "<td>".$klaim->kd_no_kl."</td>";
                                                             echo "<td>".$klaim->noreg."</td>";
                                                             echo "<td>".$klaim->nama_peserta."</td>";
                                                             echo "<td>".$klaim->tgl_kej."</td>";
                                                             echo "<td>".$klaim->nama_status."</td>";
-                                                            if($klaim->nama_status == "New"){
+                                                            if($klaim->nama_status == "New"||$klaim->nama_status == "Confirm"){
                                                                 echo "
                                                                 <td>
                                                                     <center>

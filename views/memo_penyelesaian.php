@@ -70,6 +70,7 @@
                                             <table class="table table-borderless table-data3">
                                                 <thead>
                                                     <tr>
+                                                        <th><center>KODE KLAIM</center></th>
                                                         <th><center>NO.REG</center></th>
                                                         <th><center>NAMA</center></th>
                                                         <th><center>TANGGAL KEJADIAN</center></th>
@@ -82,6 +83,7 @@
                                                     $count = 0;
                                                     foreach ($dataklaim as $klaim) {
                                                         echo "<tr>";
+                                                            echo "<td>".$klaim->kd_no_kl."</td>";
                                                             echo "<td>".$klaim->noreg."</td>";
                                                             echo "<td>".$klaim->nama_peserta."</td>";
                                                             echo "<td>".$klaim->tgl_kej."</td>";
@@ -101,10 +103,6 @@
                                                     ?>
                                                 </tbody>
                                             </table>
-                                            <div class="au-task__footer">
-                                                <a class="btn btn-primary" style="float: right;" href="<?php echo base_url("dashboard/klaim_register") ?>">Registrasi
-                                                    Klaim</a>
-                                            </div>
                                         </div>
                                         <!-- END DATA TABLE-->
                                     </div>

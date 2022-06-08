@@ -58,7 +58,7 @@
                                             <strong class="card-title text-light">Cetak Schedule Polis Akda Extra</strong>
                                         </div>                                            
                                         <div class="card-body card-block">
-                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                            <form action="<?php echo base_url('dashboard/act_cetak_schedule_peserta')?>" method="post" enctype="multipart/form-data" class="form-horizontal" id = "formAct" target="_blank">
                                                 <div class="row form-group">
                                                     <div class="col col-md-3">
                                                         <label for="text-input" class=" form-control-label">NOPIN</label>
@@ -79,7 +79,7 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <button type="submit" class="btn btn-primary btn-sm" id="submit" disabled>
-                                                        <i class="fa fa-dot-circle-o"></i> Save
+                                                        <i class="fa fa-dot-circle-o"></i> Cetak
                                                     </button>
                                                     <a href ="<?php echo base_url('dashboard/peserta') ?>" class="btn btn-danger btn-sm">
                                                         <i class="fa fa-ban"></i> Cancel
@@ -186,11 +186,27 @@
         function activeBtn(){
             var statusnopin = document.getElementById('statusnopin').value;
             var statusnoreg = document.getElementById('statusnoreg').value;
+            var target = document.getElementById('formAct').target;
+            var noreg = document.getElementById("noreg").value;
+            var nopin = document.getElementById("nopin").value;
             if(statusnopin=="true" && statusnoreg=="true"){
                 document.getElementById("submit").disabled = false;
             }else{
                 document.getElementById("submit").disabled = true;
             }
+            $.ajax({
+                url: "<?php echo base_url(); ?>dashboard/getValidasiPeserta/" + nopin + "/" + noreg,
+                method: "GET",
+                async: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (data == '') {
+                        document.getElementById('formAct').target = "";
+                    } else {
+                        document.getElementById('formAct').target = "_blank";
+                    }
+                }
+            });
         }
     </script>
 

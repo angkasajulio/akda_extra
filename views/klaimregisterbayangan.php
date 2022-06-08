@@ -10,7 +10,9 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Registrasi Klaim</title>
+
+    <link rel="icon" href="<?php echo base_url('images/icon/logo_akda_playstore.png');?>">
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url("css/font-face.css") ?>" rel="stylesheet" media="all">
@@ -160,9 +162,14 @@
                                                         <div class="col-12 col-md-9">
                                                             <input type="date" id="tglkejadian" name="tglkejadian"
                                                                 placeholder="Tanggal Kejadian" class="form-control"
-                                                                onchange="cekTglKejadian()">
+                                                                onchange="validasiInput()">
+                                                            <input type="hidden" id="statustglkejadian" value='false'>
                                                         </div>
                                                         <input type="hidden" id="statustglkejadian" value='false'>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert" style="display:none;"
+                                                        id="alerttgllapor">
+                                                        Tanggal Lapor tidak boleh kosong!
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -172,9 +179,13 @@
                                                         <div class="col-12 col-md-9">
                                                             <input type="date" id="tgllapor" name="tgllapor"
                                                                 placeholder="Tanggal Kejadian" class="form-control"
-                                                                onchange="cekTglKejadian()">
+                                                                onchange="validasiInput()">
                                                         </div>
-                                                        <input type="hidden" id="statustglkejadian" value='false'>
+                                                        <input type="hidden" id="statustgllapor" value='false'>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert" style="display:none;"
+                                                        id="alerttglregisklaim">
+                                                        Tanggal Registrasi Klaim tidak boleh kosong!
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -184,8 +195,13 @@
                                                         <div class="col-12 col-md-9">
                                                             <input type="date" value="<?php echo date('Y-m-d');?>"
                                                                 id="tgl_registrasi_klaim" name="tgl_registrasi"
-                                                                placeholder="Nama" class="form-control">
+                                                                placeholder="Nama" class="form-control" onchange="validasiInput()">
+                                                            <input type="hidden" id="statustglregisklaim" value='false'>
                                                         </div>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert" style="display:none;"
+                                                        id="alertpelapor">
+                                                        Kolom pelapor tidak boleh kosong
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -194,9 +210,9 @@
                                                         </div>
                                                         <div class="col-12 col-md-9">
                                                             <input type="text" id="pelapor" name="pelapor"
-                                                                placeholder="Pelapor" class="form-control" value="">
+                                                                placeholder="Pelapor" class="form-control" value="" onkeyup="validasiInput()">
                                                         </div>
-                                                        <input type="hidden" id="statustglregister" value='true'>
+                                                        <input type="hidden" id="statuspelapor" value='false'>
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -213,7 +229,10 @@
                                                                 ?>
                                                             </select>
                                                         </div>
-                                                        <input type="hidden" id="statusnotelp" value='true'>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert" style="display:none;"
+                                                        id="alertlockejadian">
+                                                        Kolom Lokasi Kejadian tidak boleh kosong
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -223,8 +242,13 @@
                                                         <div class="col-12 col-md-9">
                                                             <input type="text" id="lokasi_kejadian"
                                                                 name="lokasi_kejadian" placeholder="Lokasi Kejadian"
-                                                                class="form-control">
+                                                                class="form-control" onkeyup="validasiInput()">
+                                                            <input type="hidden" id="statuslockejadian" value='false'>
                                                         </div>
+                                                    </div>
+                                                    <div class="alert alert-danger" role="alert" style="display:none;"
+                                                        id="alertketklaim">
+                                                        Kolom Keterangan Klaim tidak boleh kosong
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col col-md-3">
@@ -234,7 +258,8 @@
                                                         </div>
                                                         <div class="col-12 col-md-9">
                                                             <textarea name="keterangan_klaim" id="keterangan_klaim"
-                                                                rows="9" class="form-control"></textarea>
+                                                                rows="9" class="form-control" onkeyup="validasiInput()"></textarea>
+                                                            <input type="hidden" id="statusketklaim" value='false'>
                                                         </div>
                                                     </div>
                                                     <div class="card-footer">
@@ -355,7 +380,8 @@
                                                         <div class="col-md-5">
                                                             <select id="persyaratan" class="form-control"
                                                                 placeholer="Status Rekanan"
-                                                                onchange="autoAnalisis(<?php echo $id?>)">
+                                                                onchange="autoAnalisis('<?php echo $id?>')">
+                                                                <option value=""></option>
                                                                 <option value="ya">Ya</option>
                                                                 <option value="tidak">Tidak</option>
                                                             </select>
@@ -540,7 +566,6 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                //console.log(data);
                 if (data == "") {
 
                 } else {
@@ -555,7 +580,7 @@
                     document.getElementById('keterangan_klaim').value = data[0]['ket_klaim'];
                     document.getElementById('lokasi_kejadian').value = data[0]['lokasi_kej'];
                     document.getElementById('pelapor').value = data[0]['pelapor'];
-                    document.getElementById('analisa_klaim').innerHTML = data[0]['analisa_klaim']
+                    document.getElementById('analisa_klaim').value = data[0]['analisa_klaim']
                     var penampung = data[0]['no_sebab'];
                     $.ajax({
                         url: "<?php echo base_url(); ?>dashboard/getPenyebabKlaim",
@@ -592,12 +617,12 @@
                 } else {
                     data.forEach((isi) => {
                         document.getElementById('riwayat_klaim').innerHTML +=
-                            `<tr>
+                        `<tr>
                             <td>${count}</td>
                             <td>${isi['nm_detail_lookup']}</td>
                             <td>${isi['value']}</td>
-                            <td>${isi['riwayat']}</td>
-                            <td>${isi['saldo']}</td>
+                            <td>Rp ${parseInt(isi['riwayat']).toLocaleString()}</td>
+                            <td>Rp ${parseInt(isi['saldo']).toLocaleString()}</td>
                         </tr>`;
                         count++;
                     });
@@ -662,10 +687,10 @@
                                     <label for="text-input" class=" form-control-label">${isi['nm_detail_lookup']}</label>
                                 </div>
                                 <div class="col-md-1">
-                                    <center><input type="checkbox" name="value[]" value="${isi['no_lookup']}" id="check${isi['no_lookup']}" onchange = "autoAnalisis('<?php echo $id?>')"></center>
+                                    <center><input type="checkbox" name="value[]" value="${isi['no_lookup']}" id="check${isi['no_lookup']}" onchange = "autoAnalisis('<?php echo $kd_cb?>','<?php echo $kd_thn?>','<?php echo $id?>')"></center>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="file" name="file[]" id = "file${isi['no_lookup']}" onchange = "autoCheked(${isi['no_lookup']})">
+                                    <input type="file" name="file[]" id = "file${isi['no_lookup']}" onchange = "autoCheked(${isi['no_lookup']},'<?php echo $kd_cb?>','<?php echo $kd_thn?>','<?php echo $id?>')">
                                 </div>
                             </div>`;
                         } else {
@@ -744,9 +769,82 @@
         btnOn();
     }
 
+    //Fungsi untuk cek tanggal kejadian kosong atau tidak
+    function validasiInput(){
+        var tglkejadian = document.getElementById('tglkejadian').value;
+        var tgllapor = document.getElementById('tgllapor').value;
+        var tglregisklaim = document.getElementById('tgl_registrasi_klaim').value;
+        var pelapor = document.getElementById('pelapor').value;
+        var lockejadian = document.getElementById('lokasi_kejadian').value;
+        var ketklaim = document.getElementById('keterangan_klaim').value;
+        
+        //Cek Tgl Kejadian
+        if(tglkejadian==""){
+            document.getElementById('alerttglkejadian').style.display = "";
+            document.getElementById('statustglkejadian').value = "false";
+        }else{
+            document.getElementById('alerttglkejadian').style.display = "none";
+            document.getElementById('statustglkejadian').value = "true";
+        }
+
+        //Cek Tgl Lapor
+        if(tgllapor==""){
+            document.getElementById('alerttgllapor').style.display = "";
+            document.getElementById('statustgllapor').value = "false";
+        }else{
+            document.getElementById('alerttgllapor').style.display = "none";
+            document.getElementById('statustgllapor').value = "true";
+        }
+
+        //Cek Tgl Registrasi Klaim
+        if(tglregisklaim==""){
+            document.getElementById('alerttglregisklaim').style.display = "";
+            document.getElementById('statustglregisklaim').value = "false";
+        }else{
+            document.getElementById('alerttglregisklaim').style.display = "none";
+            document.getElementById('statustglregisklaim').value = "true";
+        }
+
+        //Cek pelapor
+        if(pelapor==""){
+            document.getElementById('alertpelapor').style.display = "";
+            document.getElementById('statuspelapor').value = "false";
+        }else{
+            document.getElementById('alertpelapor').style.display = "none";
+            document.getElementById('statuspelapor').value = "true";
+        }
+
+        //Cek Loc Kejadian
+        if(lockejadian==""){
+            document.getElementById('alertlockejadian').style.display = "";
+            document.getElementById('statuslockejadian').value = "false";
+        }else{
+            document.getElementById('alertlockejadian').style.display = "none";
+            document.getElementById('statuslockejadian').value = "true";
+        }
+
+        //Cek keterangan klaim
+        if(ketklaim==""){
+            document.getElementById('alertketklaim').style.display = "";
+            document.getElementById('statusketklaim').value = "false";
+        }else{
+            document.getElementById('alertketklaim').style.display = "none";
+            document.getElementById('statusketklaim').value = "true";
+        }
+
+        //Memanggin function btnOn
+        btnOn();
+    }
+
     function btnOn() {
         var statusnoreg = document.getElementById('statusnoreg').value;
-        if (statusnoreg == "true") {
+        var statustglkejadian = document.getElementById('statustglkejadian').value;
+        var statustgllapor = document.getElementById('statustgllapor').value;
+        var statustglregisklaim = document.getElementById('statustglregisklaim').value;
+        var statuspelapor = document.getElementById('statuspelapor').value;
+        var statuslockejadian = document.getElementById('statuslockejadian').value;
+        var statusketklaim = document.getElementById('statusketklaim').value;
+        if (statusnoreg == "true" && statustglkejadian == "true" && statustgllapor == "true" && statustglregisklaim == "true" && statuspelapor == "true" && statuslockejadian == "true" && statusketklaim == "true") {
             document.getElementById('btnSubmit').disabled = false;
         } else {
             document.getElementById('btnSubmit').disabled = true;
@@ -821,11 +919,10 @@
         document.getElementById('alamat').disabled = false;
     }
 
-    function autoCheked(id) {
+    function autoCheked(id,kd_cb,kd_thn,no_kl) {
         var temp = "file" + id;
         var value = document.getElementById(temp).value;
         var checkboxes = document.getElementsByTagName('input');
-        autoAnalisis(id);
         if (value == '') {
             //console.log("isi bro "+value);
             //document.getElementById('isi'+id).checked = false;
@@ -841,9 +938,10 @@
             }*/
             document.getElementById('check' + id).checked = true;
         }
+        autoAnalisis(kd_cb,kd_thn,no_kl);
     }
 
-    function autoAnalisis(id) {
+    function autoAnalisis(kd_cb,kd_thn,id) {
         var penampungjarak = document.getElementsByName('value[]');
         var jarak = penampungjarak.length;
         var penampung = [];
@@ -863,9 +961,11 @@
         });
         console.log(filechecked);
         console.log(id);
-        document.getElementById('analisa_klaim').innerHTML = `- Dokumen Klaim Lengkap`;
+        console.log(kd_cb);
+        console.log(kd_thn);
+        document.getElementById('analisa_klaim').value = `- Dokumen Klaim Lengkap`;
         $.ajax({
-            url: "<?php echo base_url(); ?>dashboard/getJenisKlaimTaken/" + id,
+            url: "<?php echo base_url(); ?>dashboard/getJenisKlaimTaken/"+ kd_cb +"/" +kd_thn+ "/" + id,
             method: "GET",
             async: false,
             dataType: 'json',
@@ -879,7 +979,7 @@
                         //console.log(isi);
                         //console.log(penampungstatus);
                         if (penampungstatus == false) {
-                            document.getElementById('analisa_klaim').innerHTML =
+                            document.getElementById('analisa_klaim').value =
                                 `- Dokumen Klaim Tidak Lengkap`;
                         }
                     });
@@ -888,12 +988,14 @@
         });
         var persyaratan = document.getElementById('persyaratan').value;
         if (persyaratan == "ya") {
-            document.getElementById('analisa_klaim').innerHTML += `
+            document.getElementById('analisa_klaim').value += `
 - Memenuhi Persyaratan
 - Mohon Persetujuan Kepala Divisi Akda Extra`;
-        } else {
-            document.getElementById('analisa_klaim').innerHTML += `
+        } else if(persyaratan == "tidak") {
+            document.getElementById('analisa_klaim').value += `
 - Tidak Memenuhi Persyaratan`;
+        } else{
+
         }
     }
     </script>

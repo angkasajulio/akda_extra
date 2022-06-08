@@ -322,7 +322,7 @@
                                                                 </div>
                                                                 <div class="col-12 col-md-9">
                                                                     <textarea id="alamat" rows="5" class="form-control"
-                                                                        disabled>Alamat Peserta</textarea>
+                                                                        readonly>Alamat Peserta</textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="row form-group">

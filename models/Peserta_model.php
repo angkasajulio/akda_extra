@@ -47,7 +47,7 @@
 			$this->db->from('transaction.peserta');
 			$this->db->where('tgl_expired >',date('Y-m-d'));
 			$this->db->limit(10,$offset);
-			$this->db->order_by('id',"desc");
+			$this->db->order_by("tgl_aktif desc, id desc");
 			$query = $this->db->get();
 			return $query->result();
 		}
@@ -94,7 +94,7 @@
 			$this->db->where('tgl_reg>=',date('Y-m-d',strtotime($tanggal)));
 			$this->db->where('tgl_reg<=',date('Y-m-d',strtotime($tanggalakhir)));
 			$this->db->limit(10,$offset);
-			$this->db->order_by('id',"desc");
+			$this->db->order_by("tgl_aktif desc, id desc");
 			$query = $this->db->get();
 			return $query->result();
 		}
@@ -167,7 +167,7 @@
 			$this->db->where('tgl_expired >=',date('Y-m-d'));
 			$this->db->where('tgl_expired <=',date('Y-m-d',strtotime('+1 month')));
 			$this->db->limit(10,$offset);
-			$this->db->order_by('id','desc');
+			$this->db->order_by("tgl_expired desc, id desc");
 			$query = $this->db->get();
 			return $query->result();
 		}
@@ -281,7 +281,7 @@
 			$this->db->from('transaction.peserta');
 			$this->db->where('flag_renewal=',TRUE);
 			$this->db->or_where('status_renewal=','Menolak');
-			$this->db->order_by('id','desc');
+			$this->db->order_by("status_renewal desc,tgl_status desc, id desc");
 			$this->db->limit(10,$offset);
 			$query = $this->db->get();
 			return $query->result();
@@ -302,7 +302,7 @@
 			$this->db->from('transaction.peserta');
 			$this->db->where('flag_renewal=',TRUE);
 			$this->db->where('status_renewal=','Waiting');
-			$this->db->order_by('id','desc');
+			$this->db->order_by('status_renewal desc,tgl_status desc, id desc');
 			$this->db->limit(10,$offset);
 			$query = $this->db->get();
 			return $query->result();
@@ -325,7 +325,7 @@
 			$this->db->where('flag_renewal=',TRUE);
 			$this->db->where('status_renewal!=','Waiting');
 			$this->db->where('status_renewal!=','Menolak');
-			$this->db->order_by('id','desc');
+			$this->db->order_by('status_renewal desc,tgl_status desc, id desc');
 			$this->db->limit(10,$offset);
 			$query = $this->db->get();
 			return $query->result();
@@ -347,7 +347,7 @@
 			$this->db->select('*');
 			$this->db->from('transaction.peserta');
 			$this->db->where('status_renewal=','Menolak');
-			$this->db->order_by('id','desc');
+			$this->db->order_by('status_renewal desc,tgl_status desc, id desc');
 			$this->db->limit(10,$offset);
 			$query = $this->db->get();
 			return $query->result();

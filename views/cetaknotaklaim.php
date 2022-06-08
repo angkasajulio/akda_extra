@@ -31,6 +31,28 @@
         background-color: #4CAF50;
         color: white;
     }
+    #tablenama {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #tablenama td,
+    #tablenama th {
+        padding: 8px;
+    }
+
+    #tablenama tr:hover {
+        background-color: #ddd;
+    }
+
+    #tablenama th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
     </style>
 </head>
 
@@ -39,11 +61,12 @@
         <div class="container">
             <div class="header4-wrap">
                 <div class="header__logo">
-
-                    <img src="<?php echo base_url('images/icon/abbedited.png')?>" alt="Akda Extra"
-                        style="width: 200px;" />
-                    <img src="<?php echo base_url('images/icon/logo mari berasuransi.png')?>" alt="Akda Extra"
-                        style="width: 100px; float: right;" />
+                    <div class = "row">
+                        <img src="<?php echo base_url('images/icon/abbedited.png')?>" alt="Akda Extra"
+                            style="width: 200px;" />
+                        <img src="<?php echo base_url('images/icon/logo mari berasuransi.png')?>" alt="Akda Extra"
+                            style="width: 100px; float: right; margin-top: -30px;" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,12 +76,17 @@
     <br>
     <br>
     <div style="text-align:center">
-        <h3>KREDIT NOTA</h3>
+        <h3>NOTA KREDIT</h3>
     </div>
-    <table id="table">
+    <table id="tablenama">
         <tbody>
             <tr>
-                <td>Nomor Register</td>
+                <td style="min-width: 130px;">Nomor Dokumen</td>
+                <td>:</td>
+                <td><?php echo $info[0]->kd_no_kl ?></td>
+            </tr>
+            <tr>
+                <td style="min-width: 130px;">Nomor Register</td>
                 <td>:</td>
                 <td><?php echo $info[0]->noreg ?></td>
             </tr>
@@ -71,11 +99,6 @@
                 <td>Alamat</td>
                 <td>:</td>
                 <td><?php echo $info[0]->alamat_peserta ?></td>
-            </tr>
-            <tr>
-                <td>Tanggal</td>
-                <td>:</td>
-                <td><?php echo date('j-n-Y') ?></td>
             </tr>
             <tr>
                 <td>COB</td>
@@ -117,7 +140,7 @@
     <br>
     <br>
     <div style="float: right;">
-        <h4>Jakarta, <?php echo date('d M Y') ?></h4>
+        <h4>Jakarta, <?php echo date('d M Y',strtotime($nota[0]->tgl_nt)) ?></h4>
         KADIV AKDA & ASIBHARA
         <br>
         <br>

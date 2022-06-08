@@ -519,6 +519,7 @@ class Dashboard extends CI_Controller {
 		$id = $this->input->post('id_peserta');
 		$data['status_renewal'] = 'Proses';
 		$data['keterangan_renewal'] = $this->input->post('keterangan');
+		$data['tgl_status'] = date('Y-m-d');
 		$this->peserta_model->updatePesertaRenewalById($data,$id);
 		$this->session->set_flashdata('page',$this->input->post('page_peserta'));
 		$this->session->set_flashdata('msg','
@@ -599,7 +600,8 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function klaim(){
-		$data['dataklaim'] = $this->klaim_model->getKlaim();
+		//$data['dataklaim'] = $this->klaim_model->getKlaim();
+		$data['dataklaim'] = $this->klaim_model->getKlaimByUserInput($this->session->userdata('kd_user'));
 		foreach ($data['dataklaim'] as $klaim) {
 			$getstatus = $this->klaim_model->getNamaStatus($klaim->kd_status);
 			$klaim->nama_status = $getstatus[0]->nm_status;
@@ -636,7 +638,7 @@ class Dashboard extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function getTKlaimByPrimary($kd_cb,$kd_thn,$id=null){
+	public function getTKlaimByPrimary($kd_cb,$kd_thn,$id){
 		if(empty($id)){
 
 		}else{
@@ -736,7 +738,7 @@ class Dashboard extends CI_Controller {
 	}
 
     public function cetak_peserta($status){
-        //Memanggil library
+        /*//Memanggil library
 		$this->load->library('pdfgenerator');
 
 		//filename pdf ketika di download
@@ -746,30 +748,30 @@ class Dashboard extends CI_Controller {
 		$paper = array(0,0,950,950);
 
 		//Orientasi Paper
-		$orientation = "landscape";
+		$orientation = "landscape";*/
 		
 		if($status=='aktif'){
-            $data['peserta'] = $this->peserta_model->getPesertaAktifAll();
-			//$data['peserta'] = $this->peserta_model->getPesertaAktifPage(0);
+            //$data['peserta'] = $this->peserta_model->getPesertaAktifAll();
+			$data['peserta'] = $this->peserta_model->getPesertaAktifPage(0);
         }else
         if($status=='aktivasi'){
-            $data['peserta'] = $this->peserta_model->getPesertaAktifSebulanAll();
-			//$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanPage(0);
+            //$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanAll();
+			$data['peserta'] = $this->peserta_model->getPesertaAktifSebulanPage(0);
         }else
         if($status=='expired'){
-            $data['peserta'] = $this->peserta_model->getPesertaExpiredBulananAll();
-			//$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananPage(0);
+            //$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananAll();
+			$data['peserta'] = $this->peserta_model->getPesertaExpiredBulananPage(0);
         }
-        //$data['status'] = $status;
+        $data['status'] = $status;
 		$data['jenistanggal'] = "";
 		$data['tgl_awal'] = "";
 		$data['tgl_akhir'] = "";
 
-		$html = $this->load->view('cetakpesertabayangan',$data,true);
+		//$html = $this->load->view('cetakpesertabayangan',$data,true);
 
 		//run dompdf
-		$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
-    	//$this->load->view('cetakpesertabayangan',$data);
+		//$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
+    	$this->load->view('cetakpeserta',$data);
     }
 
 	/*public function next_cetak_peserta($status,$page){
@@ -946,6 +948,11 @@ class Dashboard extends CI_Controller {
 		}
     }
 
+	public function getValidasiPeserta($nopin,$noreg){
+		$data = $this->peserta_model->getPesertaByNoRegNoPin($noreg,$nopin);
+		echo json_encode($data);
+	}
+
 	/*public function cetak_query(){
 		$jenistanggal = $this->input->post('tanggal');
 		$tgl_awal = $this->input->post('tgl_awal');
@@ -971,12 +978,28 @@ class Dashboard extends CI_Controller {
 	}*/
 
 	public function cetak_query(){
+		//Memanggil library
+		/*$this->load->library('pdfgenerator');
+
+		//filename pdf ketika di download
+		$file_pdf = 'E - Polis Peserta Akda Extra';
+
+		//Ukuran kertas
+		$paper = 'A4';
+
+		//Orientasi Paper
+		$orientation = "landscape";*/
+
 		$data['status']="";
 		$data['jenistanggal'] = $this->input->post('tanggal');
 		$data['tgl_awal'] = $this->input->post('tgl_awal');
 		$data['tgl_akhir'] = $this->input->post('tgl_akhir');
 		//print_r($data['peserta']);
 		$this->load->view('cetakpesertaquery',$data);
+		//$html = $this->load->view('cetakpesertabayangan',$data,true);
+
+		//run dompdf
+		//$this->pdfgenerator->generate($html,$file_pdf,$paper,$orientation);
 	}
 
 	/*public function next_cetak_peserta_query($jenistanggal,$tgl_awal,$tgl_akhir,$page){
@@ -1830,8 +1853,8 @@ class Dashboard extends CI_Controller {
 		redirect('dashboard/klaim_register/'.$kd_cb.'/'.$kd_thn.'/'.$id.'/dokumen');
 	}
 
-	public function getJenisKlaimTaken($id){
-		$penampung = $this->klaim_model->getJenisKlaimTaken($id);
+	public function getJenisKlaimTaken($kd_cb,$kd_thn,$id){
+		$penampung = $this->klaim_model->getJenisKlaimTakenByPrimary($kd_cb,$kd_thn,$id);
 		$i=0;
 		foreach($penampung as $jenisklaim){
 			$penampungklaim[$i] = $jenisklaim->no_jenis_pertanggungan;
@@ -1871,7 +1894,7 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function settlement_klaim(){
-		$data['dataklaim'] = $this->klaim_model->getKlaimProcess();
+		$data['dataklaim'] = $this->klaim_model->getKlaimByUserStatusAndStatus($this->session->userdata('kd_user'),2);
 		foreach ($data['dataklaim'] as $klaim) {
 			$getstatus = $this->klaim_model->getNamaStatus($klaim->kd_status);
 			$klaim->nama_status = $getstatus[0]->nm_status;
@@ -1896,10 +1919,24 @@ class Dashboard extends CI_Controller {
 		$data['info'] = $this->klaim_model->getTKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
 		$data['jenisklaim'] = $this->klaim_model->getDetailJenisKlaimByPrimary($kd_cb,$kd_thn,$no_kl);
 		$data['dokumenklaim'] = $this->klaim_model->getLookUpDetail(3);
+		$data['jabatantertinggi'] = $this->klaim_model->getHighestUserByPrimary($kd_cb,$data['info'][0]->kd_approval);
 		
 		foreach ($data['info'] as $info){
 			$getPenyebabKlaim = $this->klaim_model->getDetailLookUpDetailByKdAndId(1,$info->no_sebab);
 			$info->penyebab_klaim = $getPenyebabKlaim[0]->nm_detail_lookup;
+			
+			//Get Kode Jabatan User
+			$getUser = $this->users_model->getUserById($info->kd_user_input);
+
+			//Get Nama Jabatan User
+			$getUserJabatan = $this->users_model->getPosisiById($getUser[0]->kode_posisi);
+			$info->user_input_jabatan = $getUserJabatan[0]->posisi;
+		}
+
+		foreach($data['jabatantertinggi'] as $jabatan){
+			//Get Nama Jabatan User
+			$getUserJabatan = $this->users_model->getPosisiById($jabatan->kd_jabatan);
+			$jabatan->user_jabatan = $getUserJabatan[0]->posisi;
 		}
 		
 		foreach($data['jenisklaim'] as $jenisklaim){
@@ -1930,7 +1967,8 @@ class Dashboard extends CI_Controller {
 		$data['no_kl'] = $this->input->post('no_kl');
 		$data['keterangan'] = $this->input->post('keterangan');
 		$data['kd_user'] = $this->input->post('kd_user');
-		$this->klaim_model->klaimCallProc("call klaim.testapprovalklaim(?,?,?,?,?)",$data);
+		$data['status'] = $this->input->post('status');
+		$this->klaim_model->klaimCallProc("call klaim.testapprovalklaim(?,?,?,?,?,?)",$data);
 		redirect('dashboard/settlement_klaim');
 	}
 
@@ -1986,5 +2024,16 @@ class Dashboard extends CI_Controller {
 			$klaim->nama_status = $getstatus[0]->nm_status;
 		}
 		$this->load->view('memo_penyelesaian',$data);
+	}
+
+	public function getDetailStatus($kd_cb,$kd_thn,$no_kl){
+		$data = $this->klaim_model->getDetailStatusByPrimary($kd_cb,$kd_thn,$no_kl);
+		foreach($data as $klaim){
+			$getstatus = $this->klaim_model->getNamaStatus($klaim->kd_status);
+			$klaim->nama_status = $getstatus[0]->nm_status;
+			$getusers = $this->klaim_model->getNamaUserById($klaim->kd_user);
+			$klaim->nama_user = $getusers[0]->fullname;
+		}
+		echo json_encode($data);
 	}
 }

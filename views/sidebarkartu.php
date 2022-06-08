@@ -153,7 +153,7 @@
                                     <a href="<?php echo base_url('dashboard/memo_penyelesaian_klaim') ?>">Memo Penyelesaian Klaim</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url('dashboard/kredit_nota') ?>">Kredit Nota</a>
+                                    <a href="<?php echo base_url('dashboard/kredit_nota') ?>">Nota Klaim</a>
                                 </li>
                             </ul>
                         </li>
