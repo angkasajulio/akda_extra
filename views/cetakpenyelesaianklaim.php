@@ -54,7 +54,7 @@
         background-color: #4CAF50;
         color: white;
     }
-    h4{
+    #tempatttd h4{
         float:right;
     }
     </style>
@@ -174,12 +174,12 @@
         <br>
         <br>
         <br>
-        <h4>Pengajuan</h4>
+        <h4 id="tempatttd">Pengajuan</h4>
         <br>
         <br>
         <br>
         <br>
-        <h4><?php echo $info[0]->user_input_jabatan?></h4>
+        <h4 id="tempatttd"><?php echo $info[0]->user_input_jabatan?></h4>
         <br>
         <br>
         <br>
