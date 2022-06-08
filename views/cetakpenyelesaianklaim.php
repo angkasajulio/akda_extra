@@ -171,11 +171,9 @@
         <br>
         <br>
         <br>
-        <div style="float: right;">
-            <h4><?php echo $info[0]->user_input_jabatan?></h4>
-            <br>
-            <br><?php echo $info[0]->user_input_jabatan?>
-        </div>
+        <h4 style="float:right;"><?php echo $info[0]->user_input_jabatan?></h4>
+        <br>
+        <br>
     </div>
     <br>
     <br>
