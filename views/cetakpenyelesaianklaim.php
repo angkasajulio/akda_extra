@@ -54,6 +54,9 @@
         background-color: #4CAF50;
         color: white;
     }
+    h4{
+        float:right;
+    }
     </style>
 </head>
 
@@ -171,7 +174,14 @@
         <br>
         <br>
         <br>
-        <h4 style="float:right;"><?php echo $info[0]->user_input_jabatan?></h4>
+        <h4>Pengajuan</h4>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h4><?php echo $info[0]->user_input_jabatan?></h4>
+        <br>
+        <br>
         <br>
         <br>
     </div>
