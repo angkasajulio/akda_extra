@@ -172,17 +172,10 @@
         <h4>Analisa dan Evaluasi <?php echo $info[0]->user_input_jabatan ?></h4>
         <textarea cols="254" rows="5" style="border:0px;"><?php echo $info[0]->analisa_klaim?></textarea>
         <br>
-        <br>
-        <br>
         <h4 id="tempatttd">Pengajuan</h4>
         <br>
         <br>
-        <br>
-        <br>
         <h4 id="tempatttd"><?php echo $info[0]->user_input_jabatan?></h4>
-        <br>
-        <br>
-        <br>
         <br>
     </div>
     <br>
