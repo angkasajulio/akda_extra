@@ -169,10 +169,10 @@
         <h4>Analisa dan Evaluasi <?php echo $info[0]->user_input_jabatan ?></h4>
         <textarea cols="254" rows="5" style="border:0px;"><?php echo $info[0]->analisa_klaim?></textarea>
         <br>
-        <h4 style="text-align:right;">Pengajuan</h4>
+        <h4 style="text-align:right; margin: right 10px;">Pengajuan</h4>
         <br>
         <br>
-        <h4 style="text-align:right;"><?php echo $info[0]->user_input_jabatan?></h4>
+        <h4 style="text-align:right; margin: right 10px;"><?php echo $info[0]->user_input_jabatan?></h4>
     </div>
     <br>
     <br>
